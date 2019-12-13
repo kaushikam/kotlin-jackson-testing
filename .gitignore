@@ -1,0 +1,4 @@
+out/
+!gradle/wrapper/gradle-wrapper.jar
+.idea
+.gradle
