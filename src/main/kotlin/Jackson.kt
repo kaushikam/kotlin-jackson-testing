@@ -2,9 +2,10 @@ import com.fasterxml.jackson.annotation.*
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import java.lang.IllegalArgumentException
+import java.util.*
 
 fun main() {
-    val student = Student(StudentId(1), "Kaushik", 15, 10, StudentType.REGULAR)
+    val student = Student(StudentId(1), UUID.fromString("e1f1438d-e022-4ad1-99fe-2ce7b0bc5edd"),"Kaushik", 15, 10, StudentType.REGULAR)
     val asString = ObjectMapper().writeValueAsString(student)
     println(asString)
 
@@ -17,6 +18,7 @@ fun main() {
 @JsonPropertyOrder("id", "name", "age", "class", "student-type")
 data class Student (
     val id: StudentId,
+    val teacherId: UUID,
     val name: String,
     val age: Int,
     @get:JsonProperty("class")
