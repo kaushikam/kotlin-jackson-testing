@@ -4,7 +4,7 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import java.lang.IllegalArgumentException
 
 fun main() {
-    val student = Student("Kaushik", 15, 10, StudentType.REGULAR)
+    val student = Student(StudentId(1), "Kaushik", 15, 10, StudentType.REGULAR)
     val asString = ObjectMapper().writeValueAsString(student)
     println(asString)
 
@@ -14,8 +14,9 @@ fun main() {
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonPropertyOrder("name", "age", "class", "student-type")
+@JsonPropertyOrder("id", "name", "age", "class", "student-type")
 data class Student (
+    val id: StudentId,
     val name: String,
     val age: Int,
     @get:JsonProperty("class")
@@ -23,6 +24,23 @@ data class Student (
     @get:JsonProperty("student-type")
     val type: StudentType
 )
+
+data class StudentId(
+    val id: Long
+) {
+    @JsonValue
+    fun toValue(): Long {
+        return id
+    }
+
+    companion object {
+        @JvmStatic
+        @JsonCreator
+        fun toObject(id: Long): StudentId {
+            return StudentId(id)
+        }
+    }
+}
 
 enum class StudentType (
     val code: Int
